@@ -265,6 +265,46 @@ declare module "alt-client" {
      * @returns Return is dependent on whether element associated with the specified key is stored.
      */
     public hasStreamSyncedMeta(key: string): boolean;
+    
+    //AL-CUSTOM
+    /**
+     * CUSTOM FUNCTION
+     * Retrieves all entitys in stream range
+     * 
+     * @returns Entitys if there are some in stream range, otherwise null
+     */
+    public getInRange(): Entity[] | Player[] | Vehicle[] | null;
+
+    /**
+     * Gets data from _data
+     * 
+     * @param key the key for the data
+     * @returns the data that is saved under the key, otherwise null
+     */
+    public getData(key: any): any | null
+
+    /**
+     * saves data to the internal _data var
+     * 
+     * @param key the key under that the data is stored
+     * @param data the data
+     */
+    public setData(key: any, data: any): void
+
+    /**
+     * Checks if the entity has that internal data 
+     * 
+     * @param key the key for that should be looked
+     * @returns true if it has that key otherwise false
+     */
+    public hasData(key: any): boolean
+
+    /**
+     * Deletes the data that is stored under the key
+     * 
+     * @param key the key under that the data is stored
+     */
+    public deleteData(key: any): void
   }
 
   export class Player extends Entity {
@@ -285,6 +325,47 @@ declare module "alt-client" {
 
     /** Player's vehicle, null if player is not in any vehicle */
     public readonly vehicle: Vehicle | null;
+    
+    //AL-CUSTOM
+    /** internal used player data */
+    private _data: Object
+
+    //AL-CUSTOM
+    /**
+     * Sets the player into godmode
+     * 
+     * @param toggle If the Player should have godmode or not
+     */
+    public setGodMode(toggle: boolean): void;
+
+    /**
+     * Player's godmode status
+     * 
+     * @returns If the player is in godmode
+     */
+    public hasGodMode(): boolean
+
+    /**
+     * Sets Player's bucklestate
+     * 
+     * @param toggle if the Player is save in car or not
+     */
+    public setSeatbeltState(toggle: boolean): void
+
+    /**
+     * Gets the Player's seatbeltstate
+     * 
+     * @returns If the Player has buckled up
+     */
+    public getSeatbeltState(): boolean
+
+    /**
+     * Set the player into specified vehicle
+     * 
+     * @param vehicle vehicle the player will set in
+     * @param seat seat number (-2 - max vehicle passenger count)
+     */
+    public setIntoVehicle(vehicle: Vehicle, seat?: number): void
 
     /**
      * Retrieves the player from the pool.
@@ -301,6 +382,23 @@ declare module "alt-client" {
      * @returns Entity if it was found, otherwise null.
      */
     public static getByScriptID(scriptID: number): Player | null;
+    
+    //AL-CUSTOM
+    /**
+     * CUSTOM FUNCTION
+     * Retrieves all players in stream range
+     * 
+     * @returns Entitys if there are some in stream range, otherwise null
+     */
+    public static getInRange(): Player[] | null;
+
+    /**
+     * Retrieves the closest player to position
+     * 
+     * @param pos the position where the nearest player should be got from
+     * @returns Entity that is closest to the position
+     */
+    public static getClosest(pos: Vector3): Player | null;
   }
 
   export class Vehicle extends Entity {
@@ -321,6 +419,40 @@ declare module "alt-client" {
 
     /** Vehicle wheel count */
     public readonly wheelsCount: number;
+    
+    //AL-CUSTOM
+    /**
+     * Sets the vehicle into godmode
+     * 
+     * @param toggle If the Player should have godmode or not
+     */
+    public setGodMode(toggle: boolean): void;
+
+    /**
+     * Vehicle's godmode status
+     * 
+     * @returns If the player is in godmode
+     */
+    public hasGodMode(): boolean
+
+    /**
+     * Enable vehicles hornboost
+     */
+    public hornBoost(): void
+
+    /**
+     * Set the horn boost
+     * 
+     * @param enabled if hornboost is enabled
+     * @param level horn boost level/strength
+     */
+    public setHornBoost(enabled: boolean, boost_lvl: number): void
+
+    public enableLights(mode: number): void
+
+    public getLightMode(): number
+
+    public disableLights(): void
 
     /**
      * Retrieves the vehicle from the pool.
@@ -337,6 +469,21 @@ declare module "alt-client" {
      * @returns Entity if it was found, otherwise null.
      */
     public static getByScriptID(scriptID: number): Vehicle | null;
+    
+    //AL-CUSTOM
+    /**
+     * CUSTOM FUNCTION
+     * Retrieves all vehicles in stream range
+     * @returns Entitys if there are some in stream range, otherwise null
+     */
+    public static getInRange(): Vehicle[] | null
+
+    /**
+     * Retrieves the closest vehicle to position
+     * @param pos
+     * @returns Entity that is closest to the position
+     */
+    public static getClosest(pos: Vector3): Vehicle | null
   }
 
   export class WebView extends BaseObject {
