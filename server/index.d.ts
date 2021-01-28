@@ -1127,6 +1127,8 @@ declare module "alt-server" {
     public static getByUserId(id: string | number): Player | null;
 
     // Extended
+    
+    public personalVehicle: Vehicle | null;
 
     public emitMeta(key: string, ...args: any): void;
 
@@ -1484,6 +1486,12 @@ declare module "alt-server" {
     public static getClosest(pos: Vector3, range?: number): Vehicle | null;
     public static getInRange(pos: Vector3, range?: number): Vehicle[];
 
+    public static get(id: string): Vehicle | null;
+    /**
+     * @deprecated
+     */
+    public static getByALID(id: string): Vehicle | null;
+    
     public setData(data: any): void;
     public updateData(key: string, data: any): void;
     public getData(key: string): any;
