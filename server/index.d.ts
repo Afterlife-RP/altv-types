@@ -1129,6 +1129,8 @@ declare module "alt-server" {
     // Extended
     
     public personalVehicle: Vehicle | null;
+    
+    public isCuffed: boolean;
 
     public emitMeta(key: string, ...args: any): void;
 
@@ -1490,7 +1492,7 @@ declare module "alt-server" {
     /**
      * @deprecated
      */
-    public static getByALID(id: string): Vehicle | null;
+    public static getByAlID(id: string): Vehicle | null;
     
     public setData(data: any): void;
     public updateData(key: string, data: any): void;
