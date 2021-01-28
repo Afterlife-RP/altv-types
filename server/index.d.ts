@@ -807,6 +807,136 @@ declare module "alt-server" {
      * If not specified, it defaults to "false".
      */
     public resetNetOwner(disableMigration?: boolean): void;
+
+    // Properties
+
+    public data: any;
+
+    // Inventory
+
+    /**
+     * Syncronizes the inventory between server and Entity
+     */
+    public syncInventory(): void;
+
+    /**
+     * Returns the inventory array of the Entity.
+     * @return {object[]} An array that holds all items of the Entity.
+     */
+    public getInventory(): any[];
+
+    /**
+     * Replaces the inventory array of the Entity with the specified one.
+     * @param {Array} newInventory An array that's going to be the new inventory of the Entity.
+     * @return {Boolean} True if successful, false otherwise.
+     * @fires inventoryReplaced
+     */
+    public setInventory(newInventory: any[], sync?: boolean): boolean;
+
+    /**
+     * Sets max inv weight
+     * @param weight
+     */
+    public setMaxInventoryWeight(weight: number): void;
+
+    /**
+     * Returns max inv weight
+     * @returns {Number}
+     */
+    public getMaxInventoryWeight(): number;
+
+    /**
+     * Returns whether the Entity has the specified item or not.
+     * @param  {string}  itemKey Item identifier.
+     * @return {Boolean}         True if Entity has the item, false otherwise.
+     */
+    public hasItem(itemKey: string): boolean;
+
+    /**
+     * Same as hasItem but for items with custom attributes.
+     * @param  {string}  itemKey Item identifier.
+     * @param  {object}  data    An object that has item attributes.
+     * @return {Boolean}         True if Entity has the item, false otherwise.
+     */
+    public hasItemWithData(itemKey: string, data: any): void;
+
+    /**
+     * Gets the item's index in the Entity's inventory.
+     * @param  {string} itemKey Item identifier.
+     * @return {number}         Index of the item, -1 if not found.
+     */
+    public getItemIndex(itemKey: string): number;
+
+    /**
+     * Same as getItemIndex but for items with custom attributes.
+     * @param  {string} itemKey Item identifier.
+     * @param  {object} data    An object that has item attributes.
+     * @return {number}         Index of the item, -1 if not found.
+     */
+    public getItemIndexWithData(itemKey: string, data: any): number;
+
+    /**
+     * Gets how many of the specified item exists in the Entity's inventory.
+     * @param  {string} itemKey Item identifier.
+     * @return {number}         Item amount.
+     */
+    public getItemAmount(itemKey: string): number;
+
+    /**
+     * Same as getItemAmount but for items with custom attributes.
+     * @param  {string} itemKey Item identifier.
+     * @param  {object} data    An object that has item attributes.
+     * @return {number}         Item amount.
+     */
+    public getItemAmountWithData(itemKey: string, data: any): number;
+
+    /**
+     * Gets total amount of items the Entity has in their inventory.
+     * @return {number} Amount of all items.
+     */
+    public getTotalItemAmount(): number;
+
+    /**
+     * Gets total weight of all items the Entity has in their inventory.
+     * @return {number} weight of all items.
+     */
+    public getTotalItemWeight(): number;
+
+    /**
+     * Checks if the item can be added to Entitys inventory.
+     * @return {boolean} True if possible, false otherwise.
+     */
+    public isItemAddable(itemKey: string): boolean;
+
+    /**
+     * Gives the specified item to the Entity.
+     * @param  {string} itemKey Item identifier.
+     * @param  {number} amount  Amount to give.
+     * @param  {object} [data]    Optional - An object that has item attributes.
+     * @return {Boolean}         True if successful, false otherwise.
+     * @fires itemAdded
+     */
+    public addItem(itemKey: string, amount?: number, data?: any, sync?: boolean): boolean;
+
+    /**
+     * Uses the item at the specified index of the Entity's inventory array.
+     * @param  {number} itemIdx Index of the item in Entity's inventory array.
+     * @return {Boolean}         True if successful, false otherwise.
+     * @fires itemUsed
+     */
+    public useItem(itemIdx: number, sync?: boolean): boolean;
+
+    /**
+     * Removes the item at the specified index of the Entity's inventory array.
+     * @param  {number} itemIdx Index of the item in Entity's inventory array.
+     * @param  {number} [amount]  Optional - Amount to remove.
+     * @return {Boolean}         True if successful, false otherwise.
+     * @fires itemRemoved
+     * @fires itemRemovedCompletely
+     */
+    public removeItem(itemIdx: number, amount?: number, sync?: boolean): boolean;
+
+    public explode(): void;
   }
 
   export class Player extends Entity {
@@ -986,6 +1116,183 @@ declare module "alt-server" {
      * @alpha 
      */
     public isEntityInStreamRange(entity: Entity): boolean;
+
+    // Extended static
+    public static getClosest(pos: Vector3, range?: number, filter?: (player: Player) => boolean): Player | null;
+
+    public static getInRange(pos: Vector3, range?: number): Player[] | null;
+
+    public static getByCharId(id: string | number): Player | null;
+    
+    public static getByUserId(id: string | number): Player | null;
+
+    // Extended
+
+    public emitMeta(key: string, ...args: any): void;
+
+    public save(): Promise<void>;
+
+    public getCash(): number;
+
+    public addCash(amount: number): boolean;
+
+    public subCash(amount: number): boolean;
+
+    public setCash(amount: number): void;
+
+    public getBank(): number;
+
+    public addBank(amount: number): boolean;
+
+    public subBank(amount: number): boolean;
+
+    public getFullName(): string;
+
+    public hasPropEquipped(prop?: any): boolean;
+
+    public equipProp(equip: boolean, hash?: number, boneID?: number, offset?: Vector3, rot?: Vector3): boolean;
+
+    // Phone
+    public hasPhoneEquipped(): boolean;
+
+    public equipPhone(
+        equip: boolean,
+        id?: string | number,
+        number?: string,
+        hideMessage?: boolean,
+    ): Promise<boolean>;
+
+    // Inventory
+
+    public collectItem(item: any, entityID: number, sync?: boolean): boolean;
+
+    public dropItem(pos: Vector3, itemIdx: number, amount?: number, sync?: boolean): boolean;
+
+    public hasKey(type: string | number, unique: string | number): boolean;
+
+    public getVehicleKeys(): any[];
+
+    public notify(message: string): void;
+
+    public showAdvancedNotification(
+        title: string,
+        sender: string,
+        message: string,
+        notifyPic: string,
+        iconType?: number,
+        flashing?: boolean,
+        textColor?: number,
+        bgColor?: number,
+        flashColor?: [number, number, number, number],
+    ): void;
+
+    public setJob(jobname: string, jobrank?: number): boolean;
+
+    public doScreenFadeOut(ms?: number): void;
+    public doScreenFadeIn(ms?: number): void;
+
+    /**
+     * Sends the current serverside appearance to the client to be assigned
+     * @param appearanceId number
+     */
+    public updateAppearance(appearanceId: number): void;
+    /**
+     * Sets the serverside appearance, use updateAppearance to sync
+     * @param appearanceId
+     * @param value
+     */
+    public setAppearance(appearanceId: number, value: unknown): void;
+    public getAppearance(appearanceId: number): any;
+    /**
+     * Resets the serverside appearance to idk
+     * @deprecated
+     * @param appearanceId
+     */
+    public resetAppearance(appearanceId: number): void;
+
+    /**
+     * displays help message in upper left corner
+     * @deprecated
+     * @param message
+     */
+    public showHelpText(message: string): void;
+
+    /**
+     * cuffs the player
+     * @virtual
+     * @throws
+     * @param cuffed
+     */
+    public setCuffed(cuffed: boolean): void;
+
+    /**
+     * starts a player interaction, should be done clientside
+     * @deprecated
+     * @param unique
+     * @param animationObject
+     * @param time
+     * @param data
+     */
+    public startInteraction(unique: any, animationObject: any, time: number, data: any): void;
+
+    /**
+     * @deprecated
+     */
+    public clearInteraction(): void;
+
+    /**
+     * play animation from serverside
+     * @deprecated
+     * @param args
+     */
+    public playAnimation(...args: any): void;
+
+    /**
+     * @deprecated
+     */
+    public clearAnimation(): void;
+
+    /**
+     * @deprecated
+     * @param args
+     */
+    public createMarker(...args: any): void;
+
+    /**
+     * @deprecated
+     * @param id
+     */
+    public removeMarker(id: any): void;
+
+    public buy(account: string, price: number): boolean;
+
+    public pay(account: string, amount: number): boolean;
+
+    /**
+     * @deprecated
+     */
+    public saveLocation(): Promise<void>;
+
+    /**
+     * @deprecated
+     * @param enabled
+     */
+    public toggleControls(enabled: boolean): void;
+
+    public getFullName(): string;
+    /**
+     * @deprecated
+     */
+    public getName(): string;
+    public addWeaponsFromInventory(): void;
+
+    public payContracts(): void;
+    public jobPayout(): void;
+
+    /**
+     * revives the player
+     */
+    public revive(): void;
   }
 
   export class Vehicle extends Entity {
@@ -1151,6 +1458,44 @@ declare module "alt-server" {
     public setWindowDamaged(windowId: number, isDamaged: boolean): void;
 
     public setWindowOpened(windowId: number, state: boolean): void;
+
+    /**
+     * invokes the alt.Vehicle constructor and calls setData, applyMods, applyData(Damage)
+     * @param model
+     * @param x
+     * @param y
+     * @param z
+     * @param rx
+     * @param ry
+     * @param rz
+     * @param data
+     */
+    public static create(
+        model: string | number,
+        x: number,
+        y: number,
+        z: number,
+        rx: number,
+        ry: number,
+        rz: number,
+        data: any,
+    ): Vehicle;
+
+    public static getClosest(pos: Vector3, range?: number): Vehicle | null;
+    public static getInRange(pos: Vector3, range?: number): Vehicle[];
+
+    public setData(data: any): void;
+    public updateData(key: string, data: any): void;
+    public getData(key: string): any;
+    public applyMods(): void;
+    public applyDataAppearance(): void;
+    public save(): Promise<void>;
+    /**
+     * @deprecated
+     */
+    public saveLocation(): Promise<void>;
+    public getName(): string;
+    public getAvailableMods(): any[];
   }
 
   export class Blip extends WorldObject {
