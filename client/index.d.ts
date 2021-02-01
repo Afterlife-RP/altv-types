@@ -1197,6 +1197,9 @@ declare module "alt-client" {
     public static getByScriptID(scriptID: number): Vehicle | null;
 
     // Extended types start here ------->
+	
+	public static get(id: string): Vehicle | null;
+	
     /**
      * Sets the vehicle into godmode
      *
