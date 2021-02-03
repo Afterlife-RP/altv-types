@@ -1168,7 +1168,7 @@ declare module "alt-server" {
 
     // Inventory
 
-    public collectItem(item: any, entityID: number, sync?: boolean): boolean;
+    public collectItem(entityID: number, sync?: boolean): boolean;
 
     public dropItem(pos: Vector3, itemIdx: number, amount?: number, sync?: boolean): boolean;
 
