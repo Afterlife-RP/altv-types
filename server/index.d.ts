@@ -924,7 +924,7 @@ declare module "alt-server" {
      * @return {Boolean}         True if successful, false otherwise.
      * @fires itemUsed
      */
-    public useItem(itemIdx: number, sync?: boolean): boolean;
+    public useItem(item: any, sync?: boolean, toggleEquipState?: boolean): boolean;
 
     /**
      * Removes the item at the specified index of the Entity's inventory array.
