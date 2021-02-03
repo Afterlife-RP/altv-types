@@ -619,6 +619,11 @@ declare module "alt-client" {
      * sets entity invincible
      */
     public setInvincible: (invincible: boolean) => void;
+	
+	/**
+	 * opens the entitys inventory and enables item getting / setting
+	 */
+	public openInventory(): void;
 
     /**
      * CUSTOM FUNCTION
@@ -1242,6 +1247,8 @@ declare module "alt-client" {
      * Fixes vehicle appearance
      */
     public setFixed(): void;
+	
+	public setDoor(doorId: number, state?: boolean): void;
 
     /**
      * CUSTOM FUNCTION
@@ -1257,7 +1264,7 @@ declare module "alt-client" {
      * @param pos
      * @returns Entity that is closest to the position
      */
-    public static getClosest(pos: Vector3): Vehicle | null;
+    public static getClosest(pos: Vector3, range?: number): Vehicle | null;
   }
 
   export class WebView extends BaseObject {
