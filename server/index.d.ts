@@ -1149,6 +1149,8 @@ declare module "alt-server" {
     public addBank(amount: number): boolean;
 
     public subBank(amount: number): boolean;
+	
+	public setBank(amount: number): void;
 
     public getFullName(): string;
 
