@@ -1192,7 +1192,7 @@ declare module "alt-server" {
         flashColor?: [number, number, number, number],
     ): void;
 
-    public setJob(jobname: string, jobrank?: number): boolean;
+    public setJob(jobId: number, jobRankId?: number): boolean;
 
     public doScreenFadeOut(ms?: number): void;
     public doScreenFadeIn(ms?: number): void;
