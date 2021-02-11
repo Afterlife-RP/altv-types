@@ -1144,13 +1144,15 @@ declare module "alt-server" {
 
     public setCash(amount: number): void;
 
-    public getBank(): number;
+    public getBank(iban: string): number;
 
-    public addBank(amount: number): boolean;
+    public addBank(iban: string, amount: number): boolean;
 
-    public subBank(amount: number): boolean;
+    public subBank(iban: string, amount: number): boolean;
 	
-	public setBank(amount: number): void;
+	public setBank(iban: string, amount: number): void;
+	
+	public getBankAccounts(): string[];
 
     public getFullName(): string;
 
