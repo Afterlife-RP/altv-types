@@ -712,6 +712,11 @@ declare module "alt-client" {
 
     /**
      * Is the player currently aiming.
+     *
+     * @remarks
+     * Returns ``true`` _ONLY_ if:
+     *  - you are in first person with a gun equipped and you are not sprinting
+     *  - you are in third person and aiming/shooting
      */
     public readonly isAiming: boolean;
 
@@ -1612,11 +1617,6 @@ declare module "alt-client" {
 
   export class Discord {
     public static readonly currentUser: IDiscordUser | null;
-
-    /**
-     * @deprecated Seriously, don't use it because it might get removed someday in most unexpected moment.
-     */
-    public static requestOAuth2Token(): Promise<IDiscordOAuth2Token>;
   }
 
   export class File {
@@ -1809,8 +1809,19 @@ declare module "alt-client" {
    */
   export function getLocale(): string;
 
+  /**
+   * Gets the current milliseconds per game minute.
+   * 
+   * @remarks This is set with the {@link setMsPerGameMinute} function.
+   */
   export function getMsPerGameMinute(): number;
 
+  /**
+   * Gets the state of the specified permission.
+   * 
+   * @param permId Permission id.
+   * @returns Permission state.
+   */
   export function getPermissionState(permId: Permission): PermissionState;
 
   /**
@@ -1842,14 +1853,7 @@ declare module "alt-client" {
   export function isGameFocused(): boolean;
 
   /**
-   * Sandbox mode.
-   *
-   * @returns True when alt:V client is launched in sandbox mode.
-   */
-  export function isInSandbox(): boolean;
-
-  /**
-   * Streamer mode.
+   * Returns if alt:V is in streamer mode.
    *
    * @returns True when alt:V client is launched in streamer mode.
    *
@@ -1857,7 +1861,7 @@ declare module "alt-client" {
   export function isInStreamerMode(): boolean;
 
   /**
-   * Debug mode.
+   * Returns if alt:V is in debug mode.
    * 
    * @returns True when alt:V client is launched with debug mode enabled.
    */
@@ -1868,7 +1872,7 @@ declare module "alt-client" {
    * 
    * @returns True when voice activity input is enabled in alt:V settings.
    * 
-   * @deprecated Use alt.Voice.activityInputEnabled instead
+   * @deprecated Use alt.Voice.activityInputEnabled instead.
    */
   export function isVoiceActivityInputEnabled(): boolean;
 
@@ -1909,10 +1913,19 @@ declare module "alt-client" {
    */
   export function loadModelAsync(modelHash: number): void;
 
+  /**
+   * Logs the specified arguments to the console.
+   */
   export function log(...args: any[]): void;
 
+  /**
+   * Logs the specified arguments as an error to the console.
+   */
   export function logError(...args: any[]): void;
 
+  /**
+   * Logs the specified arguments as a warning to the console.
+   */
   export function logWarning(...args: any[]): void;
 
   /**
@@ -2066,6 +2079,11 @@ declare module "alt-client" {
    */
   export function doesConfigFlagExist(flag: string): boolean;
 
+  /**
+   * Sets the current position of the cursor.
+   * 
+   * @remarks The cursor has to be visible for this to take effect.
+   */
   export function setCursorPos(pos: IVector2): void;
 
   /**
@@ -2089,7 +2107,6 @@ declare module "alt-client" {
    * @param x The rotation velocity on the X axis.
    * @param y The rotation velocity on the Y axis.
    * @param z The rotation velocity on the Z axis.
-   *
    */
   export function setRotationVelocity(scriptID: number, x: number, y: number, z: number): void;
 
@@ -2110,8 +2127,22 @@ declare module "alt-client" {
    */
   export function setTimeout(handler: () => void, miliseconds: number): number;
 
-  export function setWeatherCycle(weathers: Array<any>, multipliers: Array<any>): void;
+  /**
+   * Sets the current weather cycle.
+   * 
+   * @remarks This has to be activated after using it by using the {@link setWeatherSyncActive} function.
+   * The weathers and multipliers array has to be of the same length.
+   * @param weathers An array containing the weather ids for the weather cycle.
+   * @param multipliers An array containing the multipliers for the weather cycle.
+   */
+  export function setWeatherCycle(weathers: Array<number>, multipliers: Array<number>): void;
 
+  /**
+   * Sets whether the weather sync is active.
+   * 
+   * @remarks The weather sync has to be set by using the {@link setWeatherCycle} function.
+   * @param isActive Whether the weather sync should be active.
+   */
   export function setWeatherSyncActive(isActive: boolean): void;
 
   /**
